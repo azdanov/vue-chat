@@ -14,7 +14,7 @@ export default {
     }
   },
   actions: {
-    initAuthentication({ dispatch, commit, state }) {
+    initAuthObserver({ dispatch, commit, state }) {
       return new Promise(async resolve => {
         if (state.authId) {
           console.log("🕵🏻‍♂️️", state.authId);

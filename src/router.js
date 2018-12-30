@@ -57,7 +57,7 @@ function guestRoute(to) {
 router.beforeEach((to, from, next) => {
   console.log(`${from.name} → ${to.name}`);
 
-  store.dispatch("initAuthentication").then(user => {
+  store.dispatch("initAuthObserver").then(user => {
     console.log("🚦️", user);
     if (authRoute(to)) {
       if (user) {
