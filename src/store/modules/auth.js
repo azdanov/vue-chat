@@ -18,7 +18,7 @@ export default {
       return new Promise(async resolve => {
         if (state.authId) {
           console.log("🕵🏻‍♂️️", state.authId);
-          const user = await dispatch("fetchUser", { id: state.authId });
+          const user = await dispatch("fetchAuthUser", { id: state.authId });
 
           return resolve(user);
         }
@@ -48,7 +48,29 @@ export default {
         .ref("users")
         .child(user.uid)
         .once("value", async snapshot => {
-          // TODO: add to online user pool
+          if (snapshot.exists()) {
+            return;
+          }
+
+          await dispatch("createUser", {
+            id: user.uid,
+            name: user.displayName,
+            email: user.email,
+            avatar: user.photoURL
+          });
+          dispatch("fetchAuthUser");
+        });
+    },
+
+    async signInWithGithub({ dispatch }) {
+      const provider = new firebase.auth.GithubAuthProvider();
+      const { user } = await firebase.auth().signInWithPopup(provider);
+
+      return firebase
+        .database()
+        .ref("users")
+        .child(user.uid)
+        .once("value", async snapshot => {
           if (snapshot.exists()) {
             return;
           }
