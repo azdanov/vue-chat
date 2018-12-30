@@ -32,7 +32,7 @@ const router = new Router({
       path: "/logout",
       name: "logout",
       beforeEnter(to, from, next) {
-        store.dispatch("auth/signOut").then(() => next({ name: "home" }));
+        store.dispatch("signOut").then(() => next({ name: "home" }));
       }
     },
     {
