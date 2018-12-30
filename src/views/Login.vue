@@ -1,13 +1,21 @@
 <template>
-  <div>
-    <h2 class="pt-2">Login</h2>
+  <div class="shadow-md max-w-sm m-auto mt-8 p-4 pb-8 rounded">
+    <h2 class="text-4xl">Login</h2>
 
-    <button
-      class="bg-red hover:bg-red-dark text-white font-bold py-3 px-5 rounded-full text-lg shadow no-underline mt-6"
-      @click="login"
-    >
-      with Google
-    </button>
+    <div class="flex flex-col w-48 m-auto">
+      <button
+        class="bg-red hover:bg-red-dark text-white font-bold py-3 px-5 rounded-full text-lg shadow no-underline mt-6"
+        @click="loginGoogle"
+      >
+        with Google
+      </button>
+      <button
+        class="bg-grey-darkest hover:bg-black text-white font-bold py-3 px-5 rounded-full text-lg shadow no-underline mt-6"
+        @click="loginGithub"
+      >
+        with Github
+      </button>
+    </div>
   </div>
 </template>
 
@@ -17,10 +25,17 @@ export default {
   name: "Login",
   methods: {
     ...mapActions({
-      signInWithGoogle: "signInWithGoogle"
+      signInWithGoogle: "signInWithGoogle",
+      signInWithGithub: "signInWithGithub"
     }),
-    login() {
-      this.signInWithGoogle().then(() => this.$router.push({ name: "chat" }));
+    loginGoogle() {
+      this.signInWithGoogle().then(this.redirect);
+    },
+    loginGithub() {
+      this.signInWithGithub().then(this.redirect);
+    },
+    redirect() {
+      this.$router.push({ name: "chat" });
     }
   }
 };
