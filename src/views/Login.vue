@@ -4,6 +4,7 @@
 
     <button
       class="bg-red hover:bg-red-dark text-white font-bold py-3 px-5 rounded-full text-lg shadow no-underline mt-6"
+      @click="login"
     >
       with Google
     </button>
@@ -11,8 +12,17 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
-  name: "Login"
+  name: "Login",
+  methods: {
+    ...mapActions({
+      signInWithGoogle: "signInWithGoogle"
+    }),
+    login() {
+      this.signInWithGoogle().then(() => this.$router.push({ name: "chat" }));
+    }
+  }
 };
 </script>
 
