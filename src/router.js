@@ -33,7 +33,8 @@ const router = new Router({
       name: "logout",
       beforeEnter(to, from, next) {
         store.dispatch("signOut").then(() => next({ name: "home" }));
-      }
+      },
+      meta: { requiresAuth: true }
     },
     {
       path: "/chat",
