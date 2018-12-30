@@ -45,18 +45,26 @@ const router = new Router({
   ]
 });
 
+function authRoute(to) {
+  return to.matched.some(route => route.meta.requiresAuth);
+}
+
+function guestRoute(to) {
+  return to.matched.some(route => route.meta.requiresGuest);
+}
+
 router.beforeEach((to, from, next) => {
   console.log(`${from.name} → ${to.name}`);
 
   store.dispatch("initAuthentication").then(user => {
     console.log("🚦️", user);
-    if (to.matched.some(route => route.meta.requiresAuth)) {
+    if (authRoute(to)) {
       if (user) {
         next();
       } else {
         next({ name: "login" });
       }
-    } else if (to.matched.some(route => route.meta.requiresGuest)) {
+    } else if (guestRoute(to)) {
       if (!user) {
         next();
       } else {
