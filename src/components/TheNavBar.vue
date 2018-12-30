@@ -1,6 +1,6 @@
 <template>
   <div class="my-4 text-grey-darkest flex justify-end">
-    <div v-if="!auth">
+    <div v-if="guest">
       <RouterLink
         :to="{ name: 'home' }"
         class="text-grey-darkest hover:bg-grey-lightest p-2 no-underline"
@@ -44,7 +44,10 @@ import { mapState } from "vuex";
 export default {
   name: "NavBar",
   computed: {
-    ...mapState({ auth: state => state.auth.authId })
+    ...mapState({ auth: state => state.auth.authId }),
+    guest() {
+      return !this.auth;
+    }
   }
 };
 </script>
