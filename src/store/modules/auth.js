@@ -33,8 +33,7 @@ export default {
             return resolve(null);
           }
 
-          const dbUser = await dispatch("fetchAuthUser");
-          resolve(dbUser);
+          resolve(await dispatch("fetchAuthUser"));
         });
         commit("setUnsubscribeAuth", unsubscribe);
       });
@@ -49,6 +48,7 @@ export default {
         .ref("users")
         .child(user.uid)
         .once("value", async snapshot => {
+          // TODO: add to online user pool
           if (snapshot.exists()) {
             return;
           }
