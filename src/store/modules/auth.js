@@ -5,14 +5,17 @@ export default {
     authId: null,
     unsubscribeAuth: null
   },
+
   mutations: {
-    setAuthId(state, id) {
+    setAuthId(state, { id }) {
       state.authId = id;
     },
+
     setUnsubscribeAuth(state, unsubscribe) {
       state.unsubscribeAuth = unsubscribe;
     }
   },
+
   actions: {
     initAuthObserver({ dispatch, commit, state }) {
       return new Promise(async resolve => {
@@ -85,9 +88,15 @@ export default {
         });
     },
 
-    async signOut({ commit }) {
-      await firebase.auth().signOut();
-      commit("setAuthId", null);
+    async signOut({ commit, dispatch }) {
+      const id = firebase.auth().currentUser.uid;
+
+      await Promise.all([
+        firebase.auth().signOut(),
+        dispatch("deleteUser", { id })
+      ]);
+
+      commit("setAuthId", { id: null });
     },
 
     fetchAuthUser({ dispatch, commit }) {
@@ -106,9 +115,9 @@ export default {
             const user = await dispatch("fetchUser", { id });
 
             if (user) {
-              commit("setAuthId", id);
+              commit("setAuthId", { id });
             } else {
-              commit("setAuthId", null);
+              commit("setAuthId", { id: null });
             }
 
             resolve(user);
