@@ -1,5 +1,7 @@
 <template>
-  <div class="container text-black mx-auto antialiased font-sans text-center">
+  <div
+    class="container text-black antialiased font-sans text-center h-screen overflow-hidden"
+  >
     <NavBar></NavBar>
     <RouterView />
   </div>
