@@ -2,18 +2,22 @@
   <div class="bg-white shadow-md rounded pl-6 mr-2 py-4 max-h-outer">
     <p class="block text-grey-darker text-sm font-bold">Recent Messages</p>
     <div class="overflow-auto h-inner mt-2 pr-2">
+      <div v-if="messages.length === 0" class="mt-8 text-xl">
+        Currently no messages are available.
+      </div>
       <div
-        v-for="index in 1"
-        :key="index"
-        class="text-left flex leading-tight mt-1 mb-2"
+        v-for="message in messages"
+        :key="message.id"
+        class="text-left flex items-baseline leading-tight mt-1 mb-2"
       >
-        <time :datetime="messageTime" class="mr-2 text-grey-darker"
-          >{{ messageTime }} ({{ index }})</time
-        >
+        <time class="w-10 mr-3 text-right text-grey-darker text-sm">{{
+          message.time | formatTime
+        }}</time>
         <p>
-          <span class="font-semibold mr-2">Anton Zdanov</span>
-          <span class="text-grey-darker">(akumael@gmail.com)</span>:<br />
-          {{ message.body }}
+          <span class="font-semibold mr-2">{{ user(message.user).name }}</span>
+          <span class="text-grey-darker">({{ user(message.user).email }})</span
+          >:<br />
+          {{ message.text }}
         </p>
       </div>
     </div>
@@ -21,22 +25,38 @@
 </template>
 
 <script>
-import { fromUnixTime, format } from "date-fns";
+import { mapActions, mapState } from "vuex";
+import { format } from "date-fns";
 
 export default {
   name: "MessagesPanel",
-  data() {
-    return {
-      message: {
-        time: 1546257122437,
-        body:
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, cum dolorum eaque eveniet iste itaque labore mollitia nisi pariatur sint vero, vitae voluptatibus. Doloribus illo provident quas repudiandae similique tempore!"
-      }
-    };
+  filters: {
+    formatTime(value) {
+      return format(new Date(value), "k:mm");
+    }
   },
   computed: {
-    messageTime() {
-      return format(fromUnixTime(this.message.time), "k:mm");
+    ...mapState({
+      users: state => state.users.users,
+      messages: state =>
+        Object.entries(state.messages.messages)
+          .reverse()
+          .map(message => ({ ...message[1], id: message[0] }))
+    })
+  },
+  created() {
+    this.fetchAllMessages().then(messages => {
+      if (!messages) return;
+      const userIds = new Set(
+        Object.values(messages).map(message => message.user)
+      );
+      this.fetchUsers(Array.from(userIds));
+    });
+  },
+  methods: {
+    ...mapActions(["fetchAllMessages", "fetchUsers"]),
+    user(id) {
+      return this.users[id];
     }
   }
 };
