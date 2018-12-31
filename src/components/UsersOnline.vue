@@ -1,20 +1,24 @@
 <template>
-  <div class="bg-white shadow-md rounded px-8 py-4 max-h-72 overflow-auto">
-    <p class="block text-grey-darker text-sm font-bold mb-2">Users Online</p>
-    <div class="flex flex-col text-left">
-      <div
-        v-for="(user, key) in online"
-        :key="key"
-        class="flex items-center justify-start my-2"
-      >
-        <img
-          class="w-10 h-10 rounded-full mr-4"
-          :src="user.avatar"
-          :alt="`Avatar of ${user.name}`"
-        />
-        <div class="text-sm">
-          <p class="text-black leading-none">{{ user.name }}</p>
-          <p class="text-grey-dark">{{ user.email }}</p>
+  <div class="bg-white shadow-md rounded pl-8 py-4 max-h-outer">
+    <p class="block text-grey-darker text-sm font-bold mb-2 mr-8">
+      Users Online
+    </p>
+    <div class="h-inner overflow-auto">
+      <div class="flex flex-col text-left">
+        <div
+          v-for="(user, key) in online"
+          :key="key"
+          class="flex items-center justify-start my-2"
+        >
+          <img
+            class="w-10 h-10 rounded-full mr-4"
+            :src="user.avatar"
+            :alt="`Avatar of ${user.name}`"
+          />
+          <div class="text-sm">
+            <p class="text-black leading-none">{{ user.name }}</p>
+            <p class="text-grey-dark">{{ user.email }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -38,7 +42,10 @@ export default {
 </script>
 
 <style scoped>
-.max-h-72 {
+.h-inner {
+  max-height: 17rem;
+}
+.max-h-outer {
   max-height: 20rem;
 }
 </style>
