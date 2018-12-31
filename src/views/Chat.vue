@@ -17,29 +17,37 @@ import NewMessage from "@/components/NewMessage";
 import UsersOnline from "@/components/UsersOnline";
 
 const usersRef = firebase.database().ref("users");
+const messagesRef = firebase.database().ref("messages");
 
 export default {
   name: "Chat",
   components: { MessagesPanel, UsersOnline, NewMessage },
   created() {
+    messagesRef.on("child_added", snapshot => {
+      console.log("📨", snapshot.key);
+      this.fetchMessage({ id: snapshot.key });
+    });
+
     usersRef.on("child_added", snapshot => {
-      console.log("🧔🏻 online", snapshot.key);
+      console.log("🧔🏻👋🏻", snapshot.key);
       this.fetchUser({ id: snapshot.key });
     });
 
     usersRef.on("child_removed", snapshot => {
-      console.log("🧔🏻 offline", snapshot.key);
+      console.log("🧔🏻🚪", snapshot.key);
       this.deleteUser({ id: snapshot.key });
     });
   },
   beforeDestroy() {
+    messagesRef.off("child_added");
     usersRef.off("child_added");
     usersRef.off("child_removed");
   },
   methods: {
-    ...mapActions(["fetchUser", "deleteUser"]),
+    ...mapActions(["fetchUser", "deleteUser", "createMessage", "fetchMessage"]),
+
     submit(message) {
-      console.log("✍🏻", message);
+      this.createMessage(message);
     }
   }
 };
