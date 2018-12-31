@@ -10,6 +10,7 @@
     "tailwind": "tailwind build src/styles/tailwind.css -o src/styles/tailwind-gen.css"
   },
   "dependencies": {
+    "date-fns": "^2.0.0-alpha.26",
     "firebase": "^5.7.2",
     "native-toast": "^2.0.0",
     "nprogress": "^0.2.0",
