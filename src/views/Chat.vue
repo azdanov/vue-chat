@@ -11,7 +11,7 @@
 
 <script>
 import MessagesPanel from "@/components/MessagesPanel";
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 import firebase from "firebase";
 import NewMessage from "@/components/NewMessage";
 import UsersOnline from "@/components/UsersOnline";
@@ -24,8 +24,13 @@ export default {
   components: { MessagesPanel, UsersOnline, NewMessage },
   created() {
     messagesRef.on("child_added", snapshot => {
-      console.log("📨", snapshot.key);
+      console.log("📨👋🏻", snapshot.key);
       this.fetchMessage({ id: snapshot.key });
+    });
+
+    messagesRef.on("child_removed", snapshot => {
+      console.log("📨🚪", snapshot.key);
+      this.deleteMessage({ id: snapshot.key });
     });
 
     usersRef.on("child_added", snapshot => {
@@ -40,12 +45,13 @@ export default {
   },
   beforeDestroy() {
     messagesRef.off("child_added");
+    messagesRef.off("child_removed");
     usersRef.off("child_added");
     usersRef.off("child_removed");
   },
   methods: {
-    ...mapActions(["fetchUser", "deleteUser", "createMessage", "fetchMessage"]),
-
+    ...mapActions(["fetchUser", "createMessage", "fetchMessage"]),
+    ...mapMutations(["deleteUser", "deleteMessage"]),
     submit(message) {
       this.createMessage(message);
     }
