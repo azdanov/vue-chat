@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     submit() {
-      this.$emit("newMessage", this.message);
+      this.$emit("newMessage", { text: this.message, time: Date.now() });
       this.message = "";
     }
   }
