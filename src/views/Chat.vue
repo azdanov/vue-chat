@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-xs">
+  <div class="w-full max-w-xs h-full">
     <NewMessage @newMessage="submit"></NewMessage>
     <hr class="my-4" />
     <UsersOnline></UsersOnline>
