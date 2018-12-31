@@ -10,13 +10,13 @@
       <textarea
         id="message"
         v-model="message"
-        class="shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+        class="shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline resize-none"
         placeholder="Message"
       ></textarea>
     </div>
     <div class="flex justify-around">
       <button
-        class="bg-red-light hover:bg-red text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        class="bg-grey-dark hover:bg-grey-darker text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="reset"
       >
         Reset
