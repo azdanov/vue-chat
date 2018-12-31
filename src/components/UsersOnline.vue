@@ -1,5 +1,5 @@
 <template>
-  <form class="bg-white shadow-md rounded px-8 py-4 max-h-72 overflow-auto">
+  <div class="bg-white shadow-md rounded px-8 py-4 max-h-72 overflow-auto">
     <p class="block text-grey-darker text-sm font-bold mb-2">Users Online</p>
     <div class="flex flex-col text-left">
       <div
@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>
