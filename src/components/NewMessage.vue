@@ -1,5 +1,5 @@
 <template>
-  <form class="bg-white shadow rounded px-8 py-4" @submit.prevent="submit">
+  <form class="bg-white shadow-md rounded px-8 py-4" @submit.prevent="submit">
     <div class="mb-4">
       <label
         class="block text-grey-darker text-sm font-bold mb-2"
