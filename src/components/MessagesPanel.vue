@@ -67,7 +67,7 @@ export default {
   max-height: 28.7rem;
 }
 .max-h-outer {
-  min-height: 9rem;
+  min-height: 7.5rem;
   max-height: calc(100vh - 5.1rem);
 }
 </style>
