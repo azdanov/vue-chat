@@ -1,12 +1,16 @@
 <template>
-  <div class="w-full max-w-xs h-full">
-    <NewMessage @newMessage="submit"></NewMessage>
-    <hr class="my-4" />
-    <UsersOnline></UsersOnline>
+  <div class="flex w-full h-full">
+    <div class="w-full max-w-xs mr-4">
+      <NewMessage @newMessage="submit"></NewMessage>
+      <hr class="my-4" />
+      <UsersOnline></UsersOnline>
+    </div>
+    <div class="w-full"><MessagesPanel></MessagesPanel></div>
   </div>
 </template>
 
 <script>
+import MessagesPanel from "@/components/MessagesPanel";
 import { mapActions } from "vuex";
 import firebase from "firebase";
 import NewMessage from "@/components/NewMessage";
@@ -16,7 +20,7 @@ const usersRef = firebase.database().ref("users");
 
 export default {
   name: "Chat",
-  components: { UsersOnline, NewMessage },
+  components: { MessagesPanel, UsersOnline, NewMessage },
   created() {
     usersRef.on("child_added", snapshot => {
       console.log("🧔🏻 online", snapshot.key);
