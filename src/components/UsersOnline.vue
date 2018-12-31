@@ -1,5 +1,5 @@
 <template>
-  <form class="bg-white shadow rounded px-8 py-4">
+  <form class="bg-white shadow-md rounded px-8 py-4 max-h-72 overflow-auto">
     <p class="block text-grey-darker text-sm font-bold mb-2">Users Online</p>
     <div class="flex flex-col text-left">
       <div
@@ -37,4 +37,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.max-h-72 {
+  max-height: 20rem;
+}
+</style>
