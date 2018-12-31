@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import MessagesPanel from "@/components/MessagesPanel";
-import { mapActions, mapMutations } from "vuex";
 import firebase from "firebase";
+import { mapActions, mapMutations } from "vuex";
+import MessagesPanel from "@/components/MessagesPanel";
 import NewMessage from "@/components/NewMessage";
 import UsersOnline from "@/components/UsersOnline";
 
@@ -38,9 +38,23 @@ export default {
       this.fetchUser({ id: snapshot.key });
     });
 
+    usersRef.on("child_changed", snapshot => {
+      console.log("🧔🏻🔃", snapshot.key);
+
+      this.storeUser({ id: snapshot.key, user: snapshot.val() });
+    });
+
     usersRef.on("child_removed", snapshot => {
       console.log("🧔🏻🚪", snapshot.key);
       this.deleteUser({ id: snapshot.key });
+    });
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        const currentUserRef = usersRef.child(user.uid);
+        currentUserRef.update({ online: true });
+        currentUserRef.onDisconnect().update({ online: false });
+      }
     });
   },
   beforeDestroy() {
@@ -51,7 +65,7 @@ export default {
   },
   methods: {
     ...mapActions(["fetchUser", "createMessage", "fetchMessage"]),
-    ...mapMutations(["deleteUser", "deleteMessage"])
+    ...mapMutations(["storeUser", "deleteMessage"])
   }
 };
 </script>
