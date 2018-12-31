@@ -5,7 +5,7 @@ export default {
   state: { users: {} },
 
   mutations: {
-    setUser(state, { id, user }) {
+    storeUser(state, { id, user }) {
       Vue.set(state.users, id, user);
     },
 
@@ -30,7 +30,7 @@ export default {
           .child(id)
           .set(user)
           .then(() => {
-            commit("setUser", { id, user });
+            commit("storeUser", { id, user });
             resolve(state.users[id]);
           });
       });
@@ -59,13 +59,19 @@ export default {
           .ref("users")
           .child(id)
           .once("value", snapshot => {
-            commit("setUser", {
+            commit("storeUser", {
               id: snapshot.key,
               user: snapshot.val()
             });
             resolve(state.users[id]);
           });
       });
+    },
+
+    fetchUsers: ({ dispatch }, ids) => {
+      console.log("🛩🛩🛩‍", ids);
+      ids = Array.isArray(ids) ? ids : Object.keys(ids);
+      return Promise.all(ids.map(id => dispatch("fetchUser", { id })));
     },
 
     fetchAllUsers: ({ state, commit }) => {
@@ -78,7 +84,7 @@ export default {
             const users = snapshot.val();
             Object.entries(users).forEach(userEntry => {
               const [id, user] = userEntry;
-              commit("setUser", { id, user });
+              commit("storeUser", { id, user });
             });
             resolve(state.users);
           });
