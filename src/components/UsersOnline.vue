@@ -26,11 +26,24 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
+
 export default {
   name: "UsersOnline",
   computed: {
-    ...mapState({ online: state => state.users.users })
+    ...mapState({
+      online: state => {
+        return Object.entries(state.users.users)
+          .filter(userEntry => !!userEntry[1].online)
+          .reduce((accumulator, userEntry) => {
+            const [id, user] = userEntry;
+
+            accumulator[id] = user;
+
+            return accumulator;
+          }, {});
+      }
+    })
   },
   created() {
     this.fetchAllUsers();
