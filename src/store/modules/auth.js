@@ -88,12 +88,17 @@ export default {
         });
     },
 
-    async signOut({ commit, dispatch }) {
+    async signOut({ commit }) {
+      console.log("🚪");
       const id = firebase.auth().currentUser.uid;
 
       await Promise.all([
         firebase.auth().signOut(),
-        dispatch("deleteUser", { id })
+        firebase
+          .database()
+          .ref("users")
+          .child(id)
+          .update({ online: false })
       ]);
 
       commit("setAuthId", { id: null });
