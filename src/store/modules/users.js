@@ -16,6 +16,7 @@ export default {
 
   actions: {
     createUser({ state, commit }, { id, email, name, avatar = null }) {
+      console.log("👶🏻", id);
       return new Promise(resolve => {
         const user = {
           avatar,
@@ -37,7 +38,7 @@ export default {
     },
 
     deleteUser({ state, commit }, { id }) {
-      console.log(id);
+      console.log("🧔🏻🗑", id);
       return new Promise(resolve => {
         firebase
           .database()
