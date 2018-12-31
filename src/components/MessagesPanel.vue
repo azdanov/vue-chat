@@ -2,7 +2,7 @@
   <div class="bg-white shadow-md rounded pl-6 mr-2 py-4 max-h-outer">
     <p class="block text-grey-darker text-sm font-bold">Recent Messages</p>
     <div class="overflow-auto h-inner mt-2 pr-2">
-      <div v-if="messages.length === 0" class="mt-8 text-xl">
+      <div v-if="messages.length === 0" class="mt-6 text-2xl">
         Currently no messages are available.
       </div>
       <div
@@ -45,18 +45,13 @@ export default {
     })
   },
   created() {
-    this.fetchAllMessages().then(messages => {
-      if (!messages) return;
-      const userIds = new Set(
-        Object.values(messages).map(message => message.user)
-      );
-      this.fetchUsers(Array.from(userIds));
-    });
+    this.fetchAllMessages();
   },
   methods: {
     ...mapActions(["fetchAllMessages", "fetchUsers"]),
     user(id) {
-      return this.users[id];
+      // FIXME: Race condition where user is unavailable
+      return this.users[id] ? this.users[id] : "";
     }
   }
 };
@@ -64,10 +59,11 @@ export default {
 
 <style scoped>
 .h-inner {
+  min-height: 4rem;
   max-height: 28.7rem;
 }
 .max-h-outer {
-  min-height: 7.5rem;
+  min-height: 8rem;
   max-height: calc(100vh - 5.1rem);
 }
 </style>
