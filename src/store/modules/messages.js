@@ -7,6 +7,9 @@ export default {
   mutations: {
     storeMessage(state, { id, message }) {
       Vue.set(state.messages, id, message);
+    },
+    deleteMessage(state, { id }) {
+      Vue.delete(state.messages, id);
     }
   },
 
