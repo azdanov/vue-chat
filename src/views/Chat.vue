@@ -1,7 +1,7 @@
 <template>
   <div class="flex w-full h-full">
     <div class="w-full max-w-xs mr-4">
-      <NewMessage @newMessage="submit"></NewMessage>
+      <NewMessage @newMessage="createMessage"></NewMessage>
       <hr class="my-4" />
       <UsersOnline></UsersOnline>
     </div>
@@ -51,10 +51,7 @@ export default {
   },
   methods: {
     ...mapActions(["fetchUser", "createMessage", "fetchMessage"]),
-    ...mapMutations(["deleteUser", "deleteMessage"]),
-    submit(message) {
-      this.createMessage(message);
-    }
+    ...mapMutations(["deleteUser", "deleteMessage"])
   }
 };
 </script>
