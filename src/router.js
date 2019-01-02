@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import nativeToast from "native-toast";
 import store from "@/store";
 
 Vue.use(Router);
@@ -32,7 +33,15 @@ const router = new Router({
       path: "/logout",
       name: "logout",
       beforeEnter(to, from, next) {
-        store.dispatch("signOut").then(() => next({ name: "home" }));
+        store.dispatch("signOut").then(() => {
+          nativeToast({
+            message: "Logged out!",
+            position: "south-east",
+            timeout: 3000,
+            type: "success"
+          });
+          next({ name: "home" });
+        });
       },
       meta: { requiresAuth: true }
     },

@@ -45,7 +45,7 @@ export default {
       }
     })
   },
-  created() {
+  mounted() {
     this.fetchAllUsers();
   },
   methods: {

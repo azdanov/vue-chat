@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import nativeToast from "native-toast";
 import { mapActions } from "vuex";
 export default {
   name: "Login",
@@ -35,6 +36,12 @@ export default {
       this.signInWithGithub().then(this.redirect);
     },
     redirect() {
+      nativeToast({
+        message: "Logged in!",
+        position: "south-east",
+        timeout: 3000,
+        type: "success"
+      });
       this.$router.push({ name: "chat" });
     }
   }
