@@ -28,24 +28,22 @@
 <script>
 import { mapActions, mapState } from "vuex";
 
+function filterOnlineUsers(state) {
+  return Object.entries(state.users.users)
+    .filter(userEntry => !!userEntry[1].online)
+    .reduce((accumulator, userEntry) => {
+      const [id, user] = userEntry;
+
+      accumulator[id] = user;
+
+      return accumulator;
+    }, {});
+}
+
 export default {
   name: "UsersOnline",
-  computed: {
-    ...mapState({
-      online: state => {
-        return Object.entries(state.users.users)
-          .filter(userEntry => !!userEntry[1].online)
-          .reduce((accumulator, userEntry) => {
-            const [id, user] = userEntry;
-
-            accumulator[id] = user;
-
-            return accumulator;
-          }, {});
-      }
-    })
-  },
-  mounted() {
+  computed: { ...mapState({ online: filterOnlineUsers }) },
+  created() {
     this.fetchAllUsers();
   },
   methods: {
