@@ -21,3 +21,4 @@ yarn-error.log*
 *.sw*
 .env
 src/styles/tailwind-gen.css
+.firebase/
