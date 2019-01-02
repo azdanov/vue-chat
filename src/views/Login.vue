@@ -24,6 +24,9 @@ import nativeToast from "native-toast";
 import { mapActions } from "vuex";
 export default {
   name: "Login",
+  created() {
+    this.$emit("ready");
+  },
   methods: {
     ...mapActions({
       signInWithGoogle: "signInWithGoogle",

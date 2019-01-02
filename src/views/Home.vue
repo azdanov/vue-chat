@@ -22,6 +22,9 @@
 <script>
 export default {
   name: "Home",
-  components: {}
+  components: {},
+  created() {
+    this.$emit("ready");
+  }
 };
 </script>

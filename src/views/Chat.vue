@@ -23,6 +23,7 @@ export default {
   name: "Chat",
   components: { MessagesPanel, UsersOnline, NewMessage },
   created() {
+    this.$emit("ready");
     messagesRef.on("child_added", snapshot => {
       console.log("📨👋🏻", snapshot.key);
       this.fetchMessage({ id: snapshot.key });
