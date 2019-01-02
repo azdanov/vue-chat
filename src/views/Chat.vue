@@ -52,6 +52,8 @@ export default {
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        this.fetchUser({ id: user.uid });
+
         const currentUserRef = usersRef.child(user.uid);
         currentUserRef.update({ online: true });
         currentUserRef.onDisconnect().update({ online: false });
