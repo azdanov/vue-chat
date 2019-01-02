@@ -2,6 +2,9 @@
 
 Trying out Vue.js, Vuex and Firebase to build a basic chat app. [Live version](https://vue-fire-chat-708bf.firebaseapp.com/).
 
+![vue-fire-chat-708bf firebaseapp com_chat](https://user-images.githubusercontent.com/6123841/50593625-b7578300-0ea1-11e9-86dc-9d99c0624fda.png)
+
+
 ## Setup
 
 1. Clone the project.
