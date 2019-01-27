@@ -10,13 +10,13 @@
         :key="message.id"
         class="text-left flex items-baseline leading-tight mt-1 mb-2"
       >
-        <time class="w-10 mr-3 text-right text-grey-darker text-sm">{{
-          message.time | formatTime
-        }}</time>
+        <time class="w-10 mr-3 text-right text-grey-darker text-sm">
+          {{ message.time | formatTime }}
+        </time>
         <p>
           <span class="font-semibold mr-2">{{ user(message.user).name }}</span>
           <span class="text-grey-darker">({{ user(message.user).email }})</span
-          >:<br />
+          >: <br />
           {{ message.text }}
         </p>
       </div>
@@ -45,7 +45,13 @@ export default {
     })
   },
   created() {
-    this.fetchAllMessages();
+    this.fetchAllMessages().then(() => {
+      const users = this.messages.reduce(
+        (acc, message) => [...acc, message.user],
+        []
+      );
+      this.fetchUsers(users);
+    });
   },
   methods: {
     ...mapActions(["fetchAllMessages", "fetchUsers"]),
